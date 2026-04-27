@@ -1,0 +1,21 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+// Apply the application plugin to add support for building an application
+apply plugin: 'application'
+// In this section you declare where to find the dependencies of your project
+repositories {
+jcenter()
+mavenCentral()
+
+dependencies {
+    compile 'com.google.guava:guava:23.0'
+testCompile 'junit:junit:4.12'
+}
+mainClassName = 'App'
+test {
+outputs.upToDateWhen{ false }
+testLogging {
+        events "passed", "failed", "skipped"
+exceptionFormat "full"
+showStandardStreams = true
+    }
