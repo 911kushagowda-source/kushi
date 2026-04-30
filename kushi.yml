@@ -1,0 +1,22 @@
+- name: Deploy Maven Artifact
+  hosts: web
+  become: no
+
+  tasks:
+    - name: Ensure app directory exists
+      file:
+        path: /var/lib/jenkins/workspace/pgm6/apps
+        state: directory
+        owner: jenkins
+        group: jenkins
+        mode: '0755'
+
+    - name: Copy JAR file
+      copy:
+        src: /var/lib/jenkins/workspace/pgm6/myapp/target/myapp-1.0-SNAPSHOT.jar
+        dest: /var/lib/jenkins/workspace/pgm6/apps/myapp-1.0-SNAPSHOT.jar
+
+    - name: Run application
+      shell: nohup java -jar /var/lib/jenkins/workspace/pgm6/apps/myapp-1.0-SNAPSHOT.jar &
+      args:
+        chdir: /var/lib/jenkins/workspace/pgm6/apps
